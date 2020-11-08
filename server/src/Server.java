@@ -17,7 +17,7 @@ public class Server {
 	public static void main(String[] args)
 			throws IOException, ClassNotFoundException {
 
-		ServerSocket serverSocket = new ServerSocket(5678);
+		ServerSocket serverSocket = new ServerSocket(1099);
 		System.out.println("Starting server...");
 
 		while (true) {
