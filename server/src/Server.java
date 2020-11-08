@@ -3,12 +3,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.Scanner;
 
 public class Server {
 	private ServerSocket welcomeSocket;
@@ -22,29 +16,33 @@ public class Server {
 
 	public static void main(String[] args)
 			throws IOException, ClassNotFoundException {
-		Scanner keyboard = new Scanner(System.in);
+
+		ServerSocket serverSocket = new ServerSocket(5678);
+		System.out.println("Starting server...");
+
 		while (true) {
-			Socket socket = new Socket("localhost", 1099);
 
-			ObjectOutputStream outToServer = new ObjectOutputStream(socket.getOutputStream());
-			ObjectInputStream inFromSever = new ObjectInputStream(socket.getInputStream());
+			Socket socket = serverSocket.accept();
+			System.out.println("Connection established");
 
-			String connection = keyboard.nextLine();
-			outToServer.writeObject(connection);
+			ObjectInputStream inFromClient = new ObjectInputStream(socket.getInputStream());
 
-			System.out.println((String) inFromSever.readObject());
+			ObjectOutputStream outToClient = new ObjectOutputStream(socket.getOutputStream());
 
-			String username = keyboard.nextLine();
-			outToServer.writeObject(username);
-
-			System.out.println((String) inFromSever.readObject());
-
-			String password = keyboard.nextLine();
-			outToServer.writeObject(password);
-
-			System.out.println((String) inFromSever.readObject());
+			String connection = (String) inFromClient.readObject();
+			if (!connection.equals("Connect")) {
+				System.out.println("Disconnected");
+				serverSocket.close();
+				break;
+			}
+			outToClient.writeObject("Username: ");
+			String username = (String) inFromClient.readObject();
+			outToClient.writeObject("Password: ");
+			String password = (String) inFromClient.readObject();
+			outToClient.writeObject("Approved");
 		}
 	}
+}
 
 	/*public static void main(String[] args) throws RemoteException {
 		RemoteBase base = new RemoteBase(DAOLocator.getDAO());
@@ -53,4 +51,3 @@ public class Server {
 		registry.rebind("Base", skeleton);
 		System.out.println("Server running");
 	}*/
-}
