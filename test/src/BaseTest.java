@@ -1,7 +1,6 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.math.BigDecimal;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -21,8 +20,8 @@ public class BaseTest {
 
 	@Test
 	public void test() throws RemoteException {
-		User user = Base.getUser(523);
-		List<User> allUsers = Base.getAllUsers();
+		User user = base.getUser(523);
+		List<User> allUsers = base.getAllUsers();
 		assertEquals(1, allUsers.size());
 	}
 }
