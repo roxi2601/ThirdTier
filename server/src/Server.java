@@ -1,3 +1,4 @@
+import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -9,7 +10,7 @@ public class Server {
 		RemoteBase base = new RemoteBase(DAOLocator.getDAO());
 		Remote skeleton = UnicastRemoteObject.exportObject(base, 8080);
 		Registry registry = LocateRegistry.getRegistry(1099);
-		registry.rebind("base", skeleton);
+		registry.rebind("Base", skeleton);
 		System.out.println("Server running");
 	}
 }
