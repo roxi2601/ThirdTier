@@ -33,10 +33,7 @@ public class Server {
 			ObjectOutputStream outToClient = new ObjectOutputStream(socket.getOutputStream());
 
 			while(true){
-				Request
-						request =
-						(Request)
-								inFromClient.readObject();
+				Request request = (Request)inFromClient.readObject();
 				if (request.getRequest().equals("getUser")) {
 					DTO dto = DAOLocator.getDAO().read(request.getObject().toString());
 					System.out.println(dto);
