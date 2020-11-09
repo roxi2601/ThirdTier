@@ -32,13 +32,13 @@ public class DAOServer extends UnicastRemoteObject implements DAO {
 	}
 
 	@Override
-	public void update(DTO car) throws RemoteException {
-		implementation.update(car);
+	public void update(DTO user) throws RemoteException {
+		implementation.update(user);
 	}
 
 	@Override
-	public void delete(DTO car) throws RemoteException {
-		implementation.delete(car);
+	public void delete(DTO user) throws RemoteException {
+		implementation.delete(user);
 	}
 	
 	public static void main(String[] args) throws Exception {
