@@ -10,7 +10,7 @@ public class DAOImplementation {
 	}
 	
 	private Connection getConnection() throws SQLException {
-		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres?currentSchema=base", "postgres", "password");
+		return DriverManager.getConnection("jdbc:postgresql://localhost:1099/postgres?currentSchema=base", "postgres", "password");
 	}
 
 	public DTO create(int id, String username, String password, int securityLevel)  throws RemoteException {
