@@ -8,7 +8,7 @@ public class DAOImplementation {
 	public DAOImplementation(DatabaseHelper<DTO> helper) {
 		this.helper = helper;
 	}
-	
+
 	private Connection getConnection() throws SQLException {
 		return DriverManager.getConnection("jdbc:postgresql://localhost:1099/postgres?currentSchema=base", "postgres", "password");
 	}
@@ -26,8 +26,8 @@ public class DAOImplementation {
 		return new DTO(id, username, password, securityLevel);
 	}
 
-	public DTO read(String id) throws RemoteException {
-		return helper.mapSingle(this::createUser, "SELECT * FROM user where id = ?", id);
+	public DTO read(String username) throws RemoteException {
+		return helper.mapSingle(this::createUser, "SELECT * FROM user where username = ?", username);
 	}
 
 	public Collection<DTO> readAll() throws RemoteException {
