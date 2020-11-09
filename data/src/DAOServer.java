@@ -38,7 +38,7 @@ public class DAOServer extends UnicastRemoteObject implements DAO {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		DatabaseHelper<DTO> helper = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=car_base", "postgres", "password");
+		DatabaseHelper<DTO> helper = new DatabaseHelper<>("jdbc:postgresql://localhost:1099/postgres?currentSchema=base", "postgres", "password");
 		DAOServer daoServer = new DAOServer(helper);
 		Registry registry = LocateRegistry.createRegistry(1099);
 		registry.rebind("userDao", daoServer);
