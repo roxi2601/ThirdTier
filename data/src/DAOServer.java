@@ -18,8 +18,8 @@ public class DAOServer extends UnicastRemoteObject implements DAO {
 	}
 
 	@Override
-	public DTO read(int id) throws RemoteException {
-		return implementation.read(id);
+	public DTO read(String username) throws RemoteException {
+		return implementation.read(username);
 	}
 
 	@Override

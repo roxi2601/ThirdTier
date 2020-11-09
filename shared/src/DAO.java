@@ -7,5 +7,5 @@ public interface DAO extends Remote {
 	Collection<DTO> readAll() throws RemoteException;
 	void update(DTO user) throws RemoteException;
 	void delete(DTO user) throws RemoteException;
-	DTO read(int id) throws RemoteException;
+	DTO read(String username) throws RemoteException;
 }
