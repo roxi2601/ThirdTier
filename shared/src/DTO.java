@@ -16,7 +16,7 @@ public class DTO implements Serializable {
 	}
 
 	public DTO(User user) throws RemoteException {
-		this(user.getId(), user.getUsername(), user.getPassword(), user.getSecurityLevel());
+		this(user.getId(), user.getUserName(), user.getPassword(), user.getSecurityLevel());
 	}
 
 	public int getId() {

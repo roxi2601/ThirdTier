@@ -15,8 +15,8 @@ public class RemoteBase implements Base {
 	
 
 	@Override
-	public User getUser(int id) throws RemoteException {
-		return implementation.getUser(id);
+	public User getUser(String username) throws RemoteException {
+		return implementation.getUser(username);
 	}
 
 	@Override
