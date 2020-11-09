@@ -10,11 +10,11 @@ public class DAOImplementation {
 	}
 	
 	private Connection getConnection() throws SQLException {
-		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres?currentSchema=base", "postgres", "password");
+		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "JJuu11@@");
 	}
 
 	public DTO create(int id, String username, String password, int securityLevel)  throws RemoteException {
-		helper.executeUpdate("INSERT INTO car VALUES (?, ?, ?, ?)", id, username, password, securityLevel);
+		helper.executeUpdate("INSERT INTO user VALUES (?, ?, ?, ?)", id, username, password, securityLevel);
 		return new DTO(id, username, password, securityLevel);
 	}
 	
@@ -27,20 +27,24 @@ public class DAOImplementation {
 	}
 
 	public DTO read(int id) throws RemoteException {
-		return helper.mapSingle(this::createUser, "SELECT * FROM car where id = ?", id);
+		return helper.mapSingle(this::createUser, "SELECT * FROM sep3db.\"user\" where id = ?", id);
+	}
+	public DTO read(String username) throws RemoteException
+	{
+		return helper.mapSingle(this::createUser, "SELECT * FROM sep3db.\"user\" where username = ?", username);
 	}
 
 	public Collection<DTO> readAll() throws RemoteException {
-		return helper.map(this::createUser, "SELECT * FROM user");
+		return helper.map(this::createUser, "SELECT * FROM sep3db.\"user\"");
 	}
 
 	public void update(DTO user) throws RemoteException {
-		helper.executeUpdate("UPDATE user SET username=?, password=?, securityLevel=? WHERE id = ?",
+		helper.executeUpdate("UPDATE sep3db.\"user\" SET username=?, password=?, securityLevel=? WHERE id = ?",
 				user.getUserName(), user.getPassword(), user.getSecurityLevel(), user.getId());
 	}
 
 	public void delete(DTO user) throws RemoteException {
-		helper.executeUpdate("DELETE FROM user WHERE id = ?", user.getId());
+		helper.executeUpdate("DELETE FROM sep3db.\"user\" WHERE id = ?", user.getId());
 	}
 	
 	private void createTestDB() throws SQLException {

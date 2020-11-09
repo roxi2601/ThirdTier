@@ -21,6 +21,10 @@ public class DAOServer extends UnicastRemoteObject implements DAO {
 	public DTO read(int id) throws RemoteException {
 		return implementation.read(id);
 	}
+	@Override
+	public DTO read(String username) throws RemoteException {
+		return implementation.read(username);
+	}
 
 	@Override
 	public Collection<DTO> readAll() throws RemoteException {
@@ -38,7 +42,7 @@ public class DAOServer extends UnicastRemoteObject implements DAO {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		DatabaseHelper<DTO> helper = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=car_base", "postgres", "password");
+		DatabaseHelper<DTO> helper = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "JJuu11@@");
 		DAOServer daoServer = new DAOServer(helper);
 		Registry registry = LocateRegistry.createRegistry(1099);
 		registry.rebind("userDao", daoServer);

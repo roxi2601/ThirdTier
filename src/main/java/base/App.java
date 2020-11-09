@@ -1,4 +1,4 @@
-package main.java.base;
+package base;
 
 /**
  * Hello world!

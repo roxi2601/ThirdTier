@@ -1,3 +1,5 @@
+import communicationWithThirdTier.Request;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -5,19 +7,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-	private ServerSocket welcomeSocket;
+
+	/*private ServerSocket welcomeSocket;
 
 	public Server(int port) throws IOException {
 		System.out.println("Starting Server...");
 
 		//Create welcoming socket at the port
 		ServerSocket welcomeSocket = new ServerSocket(port);
-	}
+	}*/
 
 	public static void main(String[] args)
 			throws IOException, ClassNotFoundException {
 
-		ServerSocket serverSocket = new ServerSocket(1099);
+		ServerSocket serverSocket = new ServerSocket(1098);
 		System.out.println("Starting server...");
 
 		while (true) {
@@ -29,20 +32,20 @@ public class Server {
 
 			ObjectOutputStream outToClient = new ObjectOutputStream(socket.getOutputStream());
 
-			String connection = (String) inFromClient.readObject();
-			if (!connection.equals("Connect")) {
-				System.out.println("Disconnected");
-				serverSocket.close();
-				break;
+			while(true){
+				Request
+						request =
+						(Request)
+								inFromClient.readObject();
+				if (request.getRequest().equals("getUser")) {
+					DTO dto = DAOLocator.getDAO().read(request.getObject().toString());
+					System.out.println(dto);
+					outToClient.writeObject(dto);
+				}
 			}
-			outToClient.writeObject("Username: ");
-			String username = (String) inFromClient.readObject();
-			outToClient.writeObject("Password: ");
-			String password = (String) inFromClient.readObject();
-			outToClient.writeObject("Approved");
+			}
 		}
 	}
-}
 
 	/*public static void main(String[] args) throws RemoteException {
 		RemoteBase base = new RemoteBase(DAOLocator.getDAO());
