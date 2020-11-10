@@ -1,7 +1,11 @@
+import shared.DTO;
+import shared.User;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class Remote extends UnicastRemoteObject implements User {
+public class Remote extends UnicastRemoteObject implements User
+{
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String username;

@@ -1,3 +1,7 @@
+import shared.DAO;
+import shared.DTO;
+import shared.User;
+
 import java.rmi.RemoteException;
 import java.util.*;
 
@@ -38,6 +42,6 @@ public class BaseImplementation {
 
 	public void removeUser(User user) throws RemoteException {
 		dao.delete(new DTO(user));
-		users.remove(user.getUserName());
+		users.remove(user.getUsername());
 	}
 }

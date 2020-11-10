@@ -1,10 +1,14 @@
+import shared.DAO;
+import shared.DTO;
+
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Collection;
 
-public class DAOServer extends UnicastRemoteObject implements DAO {
+public class DAOServer extends UnicastRemoteObject implements DAO
+{
 	private static final long serialVersionUID = 1;
 	private final DAOImplementation implementation;
 

@@ -1,3 +1,5 @@
+import shared.DTO;
+
 import java.rmi.RemoteException;
 import java.sql.*;
 import java.util.Collection;

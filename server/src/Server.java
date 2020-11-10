@@ -1,4 +1,5 @@
 import communicationWithThirdTier.Request;
+import shared.DTO;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -36,7 +37,6 @@ public class Server {
 				Request request = (Request)inFromClient.readObject();
 				if (request.getRequest().equals("getUser")) {
 					DTO dto = DAOLocator.getDAO().read(request.getObject().toString());
-					System.out.println(dto);
 					outToClient.writeObject(dto);
 				}
 			}

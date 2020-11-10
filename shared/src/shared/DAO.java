@@ -1,3 +1,7 @@
+package shared;
+
+import shared.DTO;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Collection;
