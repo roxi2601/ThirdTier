@@ -28,7 +28,7 @@ public class Remote extends UnicastRemoteObject implements User
 	}
 
 	@Override
-	public String getUsername() {
+	public String getUserName() {
 		return username;
 	}
 

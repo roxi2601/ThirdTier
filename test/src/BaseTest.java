@@ -20,7 +20,7 @@ public class BaseTest {
 
 	@Test
 	public void test() throws RemoteException {
-		User user = base.getUser(523);
+		User user = base.getUser("postgres");
 		user.getSecurityLevel();
 		List<User> allUsers = base.getAllUsers();
 		assertEquals(1, allUsers.size());
