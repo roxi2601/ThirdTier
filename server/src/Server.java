@@ -18,31 +18,38 @@ public class Server {
 		ServerSocket welcomeSocket = new ServerSocket(port);
 	}*/
 
-	public static void main(String[] args)
-			throws IOException, ClassNotFoundException {
+	public static void main(String[] args){
+			try{
+				ServerSocket serverSocket = new ServerSocket(1098);
+				System.out.println("Starting server...");
 
-		ServerSocket serverSocket = new ServerSocket(1098);
-		System.out.println("Starting server...");
+				while (true) {
 
-		while (true) {
+					Socket socket = serverSocket.accept();
+					System.out.println("Connection established");
 
-			Socket socket = serverSocket.accept();
-			System.out.println("Connection established");
+					ObjectInputStream inFromClient = new ObjectInputStream(socket.getInputStream());
 
-			ObjectInputStream inFromClient = new ObjectInputStream(socket.getInputStream());
+					ObjectOutputStream outToClient = new ObjectOutputStream(socket.getOutputStream());
 
-			ObjectOutputStream outToClient = new ObjectOutputStream(socket.getOutputStream());
+					while(true){
+						Request request = (Request)inFromClient.readObject();
+						if (request.getRequest().equals("getUser")) {
+							DTO dto = DAOLocator.getDAO().read(request.getObject().toString());
+							outToClient.writeObject(dto);
+						}
 
-			while(true){
-				Request request = (Request)inFromClient.readObject();
-				if (request.getRequest().equals("getUser")) {
-					DTO dto = DAOLocator.getDAO().read(request.getObject().toString());
-					outToClient.writeObject(dto);
+					}
 				}
+			}catch (Exception e)
+			{
+				e.printStackTrace();
 			}
-			}
-		}
 	}
+
+	}
+
+
 
 	/*public static void main(String[] args) throws RemoteException {
 		RemoteBase base = new RemoteBase(DAOLocator.getDAO());
