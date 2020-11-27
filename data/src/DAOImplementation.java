@@ -15,9 +15,11 @@ public class DAOImplementation {
 		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "JJuu11@@");
 	}
 
-	public DTO create(int id, String username, String password, int securityLevel)  throws RemoteException {
-		helper.executeUpdate("INSERT INTO user VALUES (?, ?, ?, ?)", id, username, password, securityLevel);
-		return new DTO(id, username, password, securityLevel);
+	public DTO create(int id, String username, String password, int securityLevel, String firstName, String lastName,
+					  String description, byte[] img)  throws RemoteException {
+		helper.executeUpdate("INSERT INTO user VALUES (?, ?, ?, ?,?,?,?,?)", id, username, password, securityLevel,firstName,
+				lastName, description, img);
+		return new DTO(id, username, password, securityLevel, firstName,lastName,description,img);
 	}
 	
 	private DTO createUser(ResultSet rs) throws SQLException {
@@ -25,7 +27,11 @@ public class DAOImplementation {
 		String username = rs.getString("username");
 		String password = rs.getString("password");
 		int securityLevel = rs.getInt("securityLevel");
-		return new DTO(id, username, password, securityLevel);
+		String firstName = rs.getString("firstname");
+		String lastName = rs.getString("lastname");
+		String description = rs.getString("description");
+		byte[] img =rs.getBytes("img");
+		return new DTO(id, username, password, securityLevel, firstName,lastName,description,img);
 	}
 
 	public DTO read(int id) throws RemoteException {
@@ -41,8 +47,10 @@ public class DAOImplementation {
 	}
 
 	public void update(DTO user) throws RemoteException {
-		helper.executeUpdate("UPDATE sep3db.\"user\" SET username=?, password=?, securityLevel=? WHERE id = ?",
-				user.getUserName(), user.getPassword(), user.getSecurityLevel(), user.getId());
+		helper.executeUpdate("UPDATE sep3db.\"user\" SET username=?, password=?, securityLevel=?, firstname=?, lastname=?," +
+						"description=?, img=? WHERE id = ?",
+				user.getUserName(), user.getPassword(), user.getSecurityLevel(), user.getFirstName(),user.getLastName(),
+				user.getDescription(),user.getImg(),user.getId());
 	}
 
 	public void delete(DTO user) throws RemoteException {

@@ -11,16 +11,29 @@ public class Remote extends UnicastRemoteObject implements User
 	private String username;
 	private String password;
 	private int securityLevel;
+	private String firstName;
+	private String lastName;
+	private String confirmPassword;
+	private String description;
+	private byte[] img;
 
-	public Remote(int id, String username, String password, int securityLevel) throws RemoteException {
+	public Remote(int id, String username, String password, int securityLevel, String firstName,
+			   String lastName, String confirmPassword, String description, byte[] img) throws RemoteException{
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.securityLevel = securityLevel;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.confirmPassword = confirmPassword;
+		this.description = description;
+		this.img = img;
 	}
 	
 	public Remote(DTO user) throws RemoteException {
-		this(user.getId(), user.getUserName(), user.getPassword(), user.getSecurityLevel());	}
+		this(user.getId(), user.getUserName(), user.getPassword(), user.getSecurityLevel(),
+				user.getFirstName(),user.getLastName(),user.getConfirmPassword(),user.getDescription(),
+				user.getImg());	}
 
 	@Override
 	public int getId() {
@@ -33,8 +46,33 @@ public class Remote extends UnicastRemoteObject implements User
 	}
 
 	@Override
+	public String getFirstName()  {
+		return firstName;
+	}
+
+	@Override
+	public String getLastName()  {
+		return lastName;
+	}
+
+	@Override
+	public String getDescription()  {
+		return description;
+	}
+
+	@Override
 	public String getPassword() {
 		return password;
+	}
+
+	@Override
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	@Override
+	public byte[] getImg() {
+		return img;
 	}
 
 	@Override

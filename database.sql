@@ -7,6 +7,10 @@ Create Table UserAccount
     id SERIAL PRIMARY KEY,
     username VARCHAR(256) NOT NULL,
     password VARCHAR(256) NOT NULL,
+    firstName VARCHAR(256) NOT NULL;
+    lastName VARCHAR(256) NOT NULL:
+    description VARCHAR(350) NOT NULL;
+    img bytea NOT NULL;
     securityLevel int NOT NULL
 );
 

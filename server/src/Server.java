@@ -38,6 +38,11 @@ public class Server {
 							DTO dto = DAOLocator.getDAO().read(request.getObject().toString());
 							outToClient.writeObject(dto);
 						}
+						if(request.getRequest().equals("saveUser"))
+						{
+							DTO dto = DAOLocator.getDAO().read(request.getObject().toString());
+							outToClient.writeObject(dto);
+						}
 
 					}
 				}

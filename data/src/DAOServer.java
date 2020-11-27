@@ -17,8 +17,9 @@ public class DAOServer extends UnicastRemoteObject implements DAO
 	}
 
 	@Override
-	public DTO create(int id, String username, String password, int securityLevel) throws RemoteException {
-		return implementation.create(id, username, password, securityLevel);
+	public DTO create(int id, String username, String password, int securityLevel, String firstName, String lastName,
+					  String description, byte[] img) throws RemoteException {
+		return implementation.create(id, username, password, securityLevel,firstName,lastName,description,img);
 	}
 
 	@Override
@@ -29,6 +30,8 @@ public class DAOServer extends UnicastRemoteObject implements DAO
 	public DTO read(String username) throws RemoteException {
 		return implementation.read(username);
 	}
+
+
 
 	@Override
 	public Collection<DTO> readAll() throws RemoteException {
