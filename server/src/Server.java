@@ -1,7 +1,6 @@
 import communicationWithThirdTier.Request;
-import shared.DTO;
+import shared.UserDTO;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -35,13 +34,13 @@ public class Server {
 					while(true){
 						Request request = (Request)inFromClient.readObject();
 						if (request.getRequest().equals("getUser")) {
-							DTO dto = DAOLocator.getDAO().read(request.getObject().toString());
-							outToClient.writeObject(dto);
+							UserDTO userDto = DAOLocator.getDAO().read(request.getObject().toString());
+							outToClient.writeObject(userDto);
 						}
 						if(request.getRequest().equals("saveUser"))
 						{
-							DTO dto = DAOLocator.getDAO().read(request.getObject().toString());
-							outToClient.writeObject(dto);
+							UserDTO userDto = DAOLocator.getDAO().read(request.getObject().toString());
+							outToClient.writeObject(userDto);
 						}
 
 					}

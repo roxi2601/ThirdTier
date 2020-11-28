@@ -3,7 +3,7 @@ package shared;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 
-public class DTO implements Serializable {
+public class UserDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String username;
@@ -14,8 +14,8 @@ public class DTO implements Serializable {
 	private String description;
 	private byte[] img;
 
-	public DTO(int id, String username, String password, int securityLevel, String firstName,
-			   String lastName, String description, byte[] img) {
+	public UserDTO(int id, String username, String password, int securityLevel, String firstName,
+				   String lastName, String description, byte[] img) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -26,7 +26,7 @@ public class DTO implements Serializable {
 		this.img = img;
 	}
 
-	public DTO(User user) throws RemoteException {
+	public UserDTO(User user) throws RemoteException {
 		this(user.getId(), user.getUserName(), user.getPassword(), user.getSecurityLevel(),
 				user.getFirstName(),user.getLastName(),user.getDescription(),
 				user.getImg());
