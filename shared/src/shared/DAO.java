@@ -5,11 +5,15 @@ import java.rmi.RemoteException;
 import java.util.Collection;
 
 public interface DAO extends Remote {
-	UserDTO create(int id, String username, String password, int securityLevel, String firstName, String lastName,
+	AccountDTO createAccount(int id, String username, String password, int securityLevel, String firstName, String lastName,
 						  String description, byte[] img) throws RemoteException;
-	Collection<UserDTO> readAll() throws RemoteException;
-	void update(UserDTO user) throws RemoteException;
-	void delete(UserDTO user) throws RemoteException;
-	UserDTO read(int id) throws RemoteException;
-	UserDTO read(String username) throws RemoteException;
+	UserDTO createUser(int id, String username, String password, int securityLevel) throws RemoteException;
+	Collection<UserDTO> readAllUsers() throws RemoteException;
+	Collection<AccountDTO> readAllAccounts() throws RemoteException;
+	void update(AccountDTO user) throws RemoteException;
+	void delete(AccountDTO user) throws RemoteException;
+	AccountDTO readAccount(int id) throws RemoteException;
+	UserDTO readUser(int id) throws RemoteException;
+	UserDTO readUser(String username) throws RemoteException;
+	AccountDTO readAccount(String username) throws RemoteException;
 }

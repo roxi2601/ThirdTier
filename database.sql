@@ -4,9 +4,9 @@ Create Schema sep3db;
 
 SET Schema 'sep3db';
 
-Create Table UserAccount
+Create Table "UserAccount"
 (
-    id SERIAL PRIMARY KEY,
+    accountId SERIAL PRIMARY KEY,
     username VARCHAR(256) NOT NULL,
     password VARCHAR(256) NOT NULL,
     firstName VARCHAR(256) NOT NULL,
@@ -15,3 +15,11 @@ Create Table UserAccount
     img bytea NOT NULL,
     securityLevel int NOT NULL
 );
+Create Table "User"
+(
+    userId SERIAL,
+    username VARCHAR(256) NOT NULL,
+    password VARCHAR(256) NOT NULL,
+    securityLevel int NOT NULL,
+
+	Foreign key(userId) references "UserAccount"(accountId));

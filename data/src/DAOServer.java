@@ -1,3 +1,5 @@
+import shared.Account;
+import shared.AccountDTO;
 import shared.DAO;
 import shared.UserDTO;
 
@@ -12,45 +14,65 @@ public class DAOServer extends UnicastRemoteObject implements DAO
 	private static final long serialVersionUID = 1;
 	private final DAOImplementation implementation;
 
-	public DAOServer(DatabaseHelper<UserDTO> helper) throws RemoteException {
-		implementation = new DAOImplementation(helper);
+
+
+	public DAOServer(DatabaseHelper<UserDTO> helperUser, DatabaseHelper<AccountDTO> helperAccount) throws RemoteException {
+		implementation = new DAOImplementation(helperUser, helperAccount);
 	}
 
 	@Override
-	public UserDTO create(int id, String username, String password, int securityLevel, String firstName, String lastName,
+	public AccountDTO createAccount(int id, String username, String password, int securityLevel, String firstName, String lastName,
 						  String description, byte[] img) throws RemoteException {
-		return implementation.create(id, username, password, securityLevel,firstName,lastName,description,img);
+		return implementation.createAccount(id, username, password, securityLevel,firstName,lastName,description,img);
 	}
 
 	@Override
-	public UserDTO read(int id) throws RemoteException {
-		return implementation.read(id);
-	}
-	@Override
-	public UserDTO read(String username) throws RemoteException {
-		return implementation.read(username);
-	}
-
-
-
-	@Override
-	public Collection<UserDTO> readAll() throws RemoteException {
-		return implementation.readAll();
+	public UserDTO createUser(int id, String username, String password, int securityLevel) throws RemoteException {
+		return implementation.createUser(id,username,password,securityLevel);
 	}
 
 	@Override
-	public void update(UserDTO user) throws RemoteException {
-		implementation.update(user);
+	public AccountDTO readAccount(int id) throws RemoteException {
+		return implementation.readAccount(id);
+	}
+	@Override
+	public UserDTO readUser(int id) throws RemoteException {
+		return implementation.readUser(id);
 	}
 
 	@Override
-	public void delete(UserDTO user) throws RemoteException {
-		implementation.delete(user);
+	public UserDTO readUser(String username) throws RemoteException {
+		return implementation.readUser(username);
+	}
+
+	@Override
+	public AccountDTO readAccount(String username) throws RemoteException {
+		return implementation.readAccount(username);
+	}
+
+	@Override
+	public Collection<AccountDTO> readAllAccounts() throws RemoteException {
+		return implementation.readAllAccounts();
+	}
+	@Override
+	public Collection<UserDTO> readAllUsers() throws RemoteException {
+		return implementation.readAllUsers();
+	}
+
+	@Override
+	public void update(AccountDTO account) throws RemoteException {
+		implementation.update(account);
+	}
+
+	@Override
+	public void delete(AccountDTO account) throws RemoteException {
+		implementation.delete(account);
 	}
 	
 	public static void main(String[] args) throws Exception {
-		DatabaseHelper<UserDTO> helper = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "Roksanka2601");
-		DAOServer daoServer = new DAOServer(helper);
+		DatabaseHelper<UserDTO> helperUser = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "Roksanka2601");
+		DatabaseHelper<AccountDTO> helperAccount = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "Roksanka2601");
+		DAOServer daoServer = new DAOServer(helperUser,helperAccount);
 		Registry registry = LocateRegistry.createRegistry(1099);
 		registry.rebind("userDao", daoServer);
 	}
