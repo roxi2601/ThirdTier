@@ -18,11 +18,12 @@ public class DAOImplementation {
 		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "Roksanka2601");
 	}
 
-	public AccountDTO createAccount(int accountId, String username, String password, int securityLevel, String firstName, String lastName,
+	public AccountDTO createAccount(int userId, String username, String password, int securityLevel, String firstName, String lastName,
 						  String description, byte[] img)  throws RemoteException {
-		helperAccount.executeUpdate("INSERT INTO sep3db.\"UserAccount\" VALUES (?, ?, ?, ?,?,?,?,?)", accountId, username, password,firstName,
+		helperAccount.executeUpdate("INSERT INTO sep3db.\"UserAccount\" VALUES (?, ?, ?, ?,?,?,?,?)", userId, username, password,firstName,
 				lastName, description, img,securityLevel);
-		return new AccountDTO(accountId, username, password, firstName,
+
+		return new AccountDTO(userId, username, password, firstName,
 				lastName, description, img,securityLevel);
 	}
 	public UserDTO createUser(int userId, String username, String password, int securityLevel)  throws RemoteException {

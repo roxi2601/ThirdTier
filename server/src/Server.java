@@ -4,13 +4,9 @@ import shared.UserDTO;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.AccessibleObject;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Server {
 
@@ -50,16 +46,18 @@ public class Server {
 						}
 						if(request.getRequest().equals("saveUser"))
 						{
-							List<AccountDTO> accounts = new ArrayList<>();
-							int max = (int) Collections.max(accounts);
-
-
 							AccountDTO accountDtoFromRequest = (AccountDTO) request.getObject();
+							/*List<AccountDTO> accounts = new ArrayList<>();
+							int max = (int) accounts.stream().max(Comparator.comparing(AccountDTO::getAccountId)).get();
+
+							if(accountDtoFromRequest !=null)
+							max++;*/
 
 							AccountDTO accountDto = DAOLocator.getDAO().createAccount(accountDtoFromRequest.getAccountId(),
 									accountDtoFromRequest.getUsername(), accountDtoFromRequest.getPassword(),accountDtoFromRequest.getSecurityLevel(),
 									accountDtoFromRequest.getFirstName(),accountDtoFromRequest.getLastName(),accountDtoFromRequest.getDescription(),
 									accountDtoFromRequest.getImg());
+							DAOLocator.getDAO().createUser(accountDto.getAccountId(),accountDtoFromRequest.getUsername(), accountDtoFromRequest.getPassword(),accountDtoFromRequest.getSecurityLevel());
 							outToClient.writeObject(accountDto);
 							System.out.println(accountDto);
 						}
