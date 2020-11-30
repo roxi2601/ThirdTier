@@ -32,6 +32,10 @@ public class AccountDTO implements Serializable {
                 account.getImg(), account.getSecurityLevel());
     }
 
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
+    }
+
     public int getAccountId() {
         return accountId;
     }

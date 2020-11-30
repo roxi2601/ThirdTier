@@ -7,6 +7,10 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.AccessibleObject;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class Server {
 
@@ -35,14 +39,29 @@ public class Server {
 
 					while(true){
 						Request request = (Request)inFromClient.readObject();
+
 						if (request.getRequest().equals("getUser")) {
 							UserDTO userDto = DAOLocator.getDAO().readUser(request.getObject().toString());
 							outToClient.writeObject(userDto);
 						}
-						if(request.getRequest().equals("saveUser"))
-						{
+						if (request.getRequest().equals("getAccount")) {
 							AccountDTO accountDto = DAOLocator.getDAO().readAccount(request.getObject().toString());
 							outToClient.writeObject(accountDto);
+						}
+						if(request.getRequest().equals("saveUser"))
+						{
+							List<AccountDTO> accounts = new ArrayList<>();
+							int max = (int) Collections.max(accounts);
+
+
+							AccountDTO accountDtoFromRequest = (AccountDTO) request.getObject();
+
+							AccountDTO accountDto = DAOLocator.getDAO().createAccount(accountDtoFromRequest.getAccountId(),
+									accountDtoFromRequest.getUsername(), accountDtoFromRequest.getPassword(),accountDtoFromRequest.getSecurityLevel(),
+									accountDtoFromRequest.getFirstName(),accountDtoFromRequest.getLastName(),accountDtoFromRequest.getDescription(),
+									accountDtoFromRequest.getImg());
+							outToClient.writeObject(accountDto);
+							System.out.println(accountDto);
 						}
 
 					}

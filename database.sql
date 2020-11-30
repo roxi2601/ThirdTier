@@ -12,7 +12,7 @@ Create Table "UserAccount"
     firstName VARCHAR(256) NOT NULL,
     lastName VARCHAR(256) NOT NULL,
     description VARCHAR(350) NOT NULL,
-    img bytea NOT NULL,
+    img bytea,
     securityLevel int NOT NULL
 );
 Create Table "User"
