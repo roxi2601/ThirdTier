@@ -15,7 +15,7 @@ public class DAOImplementation {
 	}
 	
 	private Connection getConnection() throws SQLException {
-		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "Roksanka2601");
+		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "JJuu11@@");
 	}
 
 	public AccountDTO createAccount(int userId, String username, String password, int securityLevel, String firstName, String lastName,
@@ -43,7 +43,7 @@ public class DAOImplementation {
 		return new AccountDTO(accountId, username, password, firstName,lastName,description,img,securityLevel);
 	}
 	private UserDTO createUser(ResultSet rs) throws SQLException {
-		int userId = rs.getInt("userId");
+		int userId = rs.getInt("userid");
 		String username = rs.getString("username");
 		String password = rs.getString("password");
 		int securityLevel = rs.getInt("securityLevel");

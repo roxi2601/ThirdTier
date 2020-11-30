@@ -38,6 +38,7 @@ public class Server {
 
 						if (request.getRequest().equals("getUser")) {
 							UserDTO userDto = DAOLocator.getDAO().readUser(request.getObject().toString());
+							System.out.println(userDto.getId());
 							outToClient.writeObject(userDto);
 						}
 						if (request.getRequest().equals("getAccount")) {
