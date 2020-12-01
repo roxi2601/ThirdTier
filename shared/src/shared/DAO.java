@@ -16,4 +16,10 @@ public interface DAO extends Remote {
 	UserDTO readUser(int id) throws RemoteException;
 	UserDTO readUser(String username) throws RemoteException;
 	AccountDTO readAccount(String username) throws RemoteException;
+	//artworks methods
+	ArtworkDTO saveArtwork(byte[] pictureBytes, String title, String description,
+			String author, int price, int userId, int id, String category) throws RemoteException;
+	ArtworkDTO readArtwork(int id) throws RemoteException;
+	Collection<ArtworkDTO> readAllArtworks() throws RemoteException;
+	Collection<ArtworkDTO> readArtworksFrom(int userId) throws RemoteException;
 }
