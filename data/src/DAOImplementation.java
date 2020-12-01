@@ -1,4 +1,6 @@
 import shared.AccountDTO;
+import shared.Artwork;
+import shared.ArtworkDTO;
 import shared.UserDTO;
 
 import java.rmi.RemoteException;
@@ -8,14 +10,16 @@ import java.util.Collection;
 public class DAOImplementation {
 	private DatabaseHelper<UserDTO> helperUser;
 	private DatabaseHelper<AccountDTO> helperAccount;
+	private DatabaseHelper<ArtworkDTO> helperArtwork;
 
-	public DAOImplementation(DatabaseHelper<UserDTO> helperUser, DatabaseHelper<AccountDTO> helperAccount) {
+	public DAOImplementation(DatabaseHelper<UserDTO> helperUser, DatabaseHelper<AccountDTO> helperAccount,DatabaseHelper<ArtworkDTO> helperArtwork) {
 		this.helperUser = helperUser;
 		this.helperAccount = helperAccount;
+		this.helperArtwork = helperArtwork;
 	}
 	
 	private Connection getConnection() throws SQLException {
-		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "Roksanka2601");
+		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "JJuu11@@");
 	}
 
 	public AccountDTO createAccount(int userId, String username, String password, int securityLevel, String firstName, String lastName,
@@ -49,7 +53,19 @@ public class DAOImplementation {
 		int securityLevel = rs.getInt("securityLevel");
 		return new UserDTO(userId, username, password, securityLevel);
 	}
+	private ArtworkDTO createArtwork(ResultSet rs) throws SQLException
+	{
+		byte[] pictureBytes = rs.getBytes("img");
+		String title = rs.getString("title");
+		String description = rs.getString("description");
+		String author = rs.getString("author");
+		int price = rs.getInt("price");
+		int userId = rs.getInt("userid");
+		int id = rs.getInt("id");
+		String category = rs.getString("category");
 
+		return  new ArtworkDTO(pictureBytes,title,description,author,price,userId,id,category);
+	}
 	public UserDTO readUser(int userId) throws RemoteException {
 		return helperUser.mapSingle(this::createUser, "SELECT * FROM sep3db.\"User\" where userid = ?", userId);
 	}
@@ -68,6 +84,7 @@ public class DAOImplementation {
 	public Collection<UserDTO> readAllUsers() throws RemoteException {
 		return helperUser.map(this::createUser, "SELECT * FROM sep3db.\"User\"");
 	}
+
 
 	public Collection<AccountDTO> readAllAccounts() throws RemoteException {
 		return helperAccount.map(this::createAccount, "SELECT * FROM sep3db.\"UserAccount\"");
@@ -90,11 +107,16 @@ public class DAOImplementation {
 	public void delete(AccountDTO account) throws RemoteException {
 		helperAccount.executeUpdate("DELETE FROM sep3db.\"UserAccount\" WHERE userid = ?", account.getUserId());
 	}
-	
-	/*private void createTestDB() throws SQLException {
-		try (Connection connection = getConnection()) {
-			Statement stat = connection.createStatement();
-			stat.executeUpdate("DELETE FROM user");
-		}
-	}*/
+	//artwork methods
+	public ArtworkDTO saveArtwork(byte[] pictureBytes, String title,
+			String description, String author, int price, int userId, int id,
+			String category) throws RemoteException
+	{
+		helperArtwork.executeUpdate("INSERT INTO sep3db.\"Artwork\" VALUES (?, ?, ?, ?, ?, ?, ?, ?)",pictureBytes, title, description, author, price, userId, id, category);
+		return new ArtworkDTO(pictureBytes, title, description, author, price, userId, id, category);
+	}
+	public Collection<ArtworkDTO> readAllArtworks() throws  RemoteException
+	{
+		return helperArtwork.map(this::createArtwork,"SELECT * FROM sep3db.\"Artwork\"");
+	}
 }

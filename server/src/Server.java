@@ -1,5 +1,7 @@
 import communicationWithThirdTier.Request;
 import shared.AccountDTO;
+import shared.Artwork;
+import shared.ArtworkDTO;
 import shared.UserDTO;
 
 import java.io.ObjectInputStream;
@@ -38,11 +40,20 @@ public class Server {
 
 						if (request.getRequest().equals("getUser")) {
 							UserDTO userDto = DAOLocator.getDAO().readUser(request.getObject().toString());
+
 							outToClient.writeObject(userDto);
 						}
 						if (request.getRequest().equals("getAccount")) {
 							AccountDTO accountDto = DAOLocator.getDAO().readAccount(request.getObject().toString());
 							outToClient.writeObject(accountDto);
+						}
+						if(request.getRequest().equals("saveArtwork"))
+						{
+							ArtworkDTO dto = (ArtworkDTO)request.getObject();
+							int max = DAOLocator.getDAO().readAllArtworks().size();
+							dto.setId(++max);
+							ArtworkDTO saved = DAOLocator.getDAO().saveArtwork(dto.getPictureBytes(),dto.getTitle(),dto.getDescription(),dto.getAuthor(),dto.getPrice(),dto.getUserId(),dto.getId(),dto.getCategory());
+							outToClient.writeObject(saved);
 						}
 						if(request.getRequest().equals("saveUser"))
 						{

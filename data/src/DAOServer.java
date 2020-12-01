@@ -1,7 +1,4 @@
-import shared.Account;
-import shared.AccountDTO;
-import shared.DAO;
-import shared.UserDTO;
+import shared.*;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -16,8 +13,8 @@ public class DAOServer extends UnicastRemoteObject implements DAO
 
 
 
-	public DAOServer(DatabaseHelper<UserDTO> helperUser, DatabaseHelper<AccountDTO> helperAccount) throws RemoteException {
-		implementation = new DAOImplementation(helperUser, helperAccount);
+	public DAOServer(DatabaseHelper<UserDTO> helperUser, DatabaseHelper<AccountDTO> helperAccount, DatabaseHelper<ArtworkDTO> helperArtwork) throws RemoteException {
+		implementation = new DAOImplementation(helperUser, helperAccount,helperArtwork);
 	}
 
 	@Override
@@ -49,6 +46,30 @@ public class DAOServer extends UnicastRemoteObject implements DAO
 	public AccountDTO readAccount(String username) throws RemoteException {
 		return implementation.readAccount(username);
 	}
+//artwork methods
+	@Override public ArtworkDTO saveArtwork(byte[] pictureBytes, String title,
+			String description, String author, int price, int userId, int id,
+			String category) throws RemoteException
+	{
+		return implementation.saveArtwork(pictureBytes, title, description, author, price, userId, id, category);
+	}
+
+	@Override public ArtworkDTO readArtwork(int id) throws RemoteException
+	{
+		return null;
+	}
+
+	@Override public Collection<ArtworkDTO> readAllArtworks()
+			throws RemoteException
+	{
+		return implementation.readAllArtworks();
+	}
+
+	@Override public Collection<ArtworkDTO> readArtworksFrom(int userId)
+			throws RemoteException
+	{
+		return null;
+	}
 
 	@Override
 	public Collection<AccountDTO> readAllAccounts() throws RemoteException {
@@ -70,9 +91,10 @@ public class DAOServer extends UnicastRemoteObject implements DAO
 	}
 	
 	public static void main(String[] args) throws Exception {
-		DatabaseHelper<UserDTO> helperUser = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "Roksanka2601");
-		DatabaseHelper<AccountDTO> helperAccount = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "Roksanka2601");
-		DAOServer daoServer = new DAOServer(helperUser,helperAccount);
+		DatabaseHelper<UserDTO> helperUser = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "JJuu11@@");
+		DatabaseHelper<AccountDTO> helperAccount = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "JJuu11@@");
+		DatabaseHelper<ArtworkDTO> helperArtwork = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "JJuu11@@");
+		DAOServer daoServer = new DAOServer(helperUser,helperAccount,helperArtwork);
 		Registry registry = LocateRegistry.createRegistry(1099);
 		registry.rebind("userDao", daoServer);
 	}
