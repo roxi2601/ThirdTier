@@ -7,23 +7,23 @@ import java.rmi.server.UnicastRemoteObject;
 public class RemoteUser extends UnicastRemoteObject implements User
 {
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private int userId;
 	private String username;
 	private String password;
 	private int securityLevel;
-	public RemoteUser(int id, String username, String password, int securityLevel) throws RemoteException{
-		this.id = id;
+	public RemoteUser(int userId, String username, String password, int securityLevel) throws RemoteException{
+		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.securityLevel = securityLevel;
 	}
 	
 	public RemoteUser(UserDTO user) throws RemoteException {
-		this(user.getId(), user.getUserName(), user.getPassword(), user.getSecurityLevel());	}
+		this(user.getUserId(), user.getUserName(), user.getPassword(), user.getSecurityLevel());	}
 
 	@Override
-	public int getId() {
-		return id;
+	public int getUserId() {
+		return userId;
 	}
 
 	@Override

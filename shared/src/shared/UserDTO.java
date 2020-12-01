@@ -5,14 +5,14 @@ import java.rmi.RemoteException;
 
 public class UserDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int id;
+	private int userId;
 	private String username;
 	private String password;
 	private int securityLevel;
 
 
-	public UserDTO(int id, String username, String password, int securityLevel) {
-		this.id = id;
+	public UserDTO(int userId, String username, String password, int securityLevel) {
+		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.securityLevel = securityLevel;
@@ -20,12 +20,12 @@ public class UserDTO implements Serializable {
 	}
 
 	public UserDTO(User user) throws RemoteException {
-		this(user.getId(), user.getUserName(), user.getPassword(),
+		this(user.getUserId(), user.getUserName(), user.getPassword(),
 				user.getSecurityLevel());
 	}
 
-	public int getId() {
-		return id;
+	public int getUserId() {
+		return userId;
 	}
 
 	public String getUserName() {

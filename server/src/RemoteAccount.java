@@ -9,7 +9,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class RemoteAccount extends UnicastRemoteObject implements Account
 {
     private static final long serialVersionUID = 1L;
-    private int id;
+    private int userId;
     private String username;
     private String password;
     private int securityLevel;
@@ -18,9 +18,9 @@ public class RemoteAccount extends UnicastRemoteObject implements Account
     private String description;
     private byte[] img;
 
-    public RemoteAccount(int id, String username, String password,int securityLevel, String firstName,
+    public RemoteAccount(int userId, String username, String password,int securityLevel, String firstName,
                       String lastName, String description, byte[] img) throws RemoteException {
-        this.id = id;
+        this.userId = userId;
         this.username = username;
         this.password = password;
         this.securityLevel = securityLevel;
@@ -32,13 +32,13 @@ public class RemoteAccount extends UnicastRemoteObject implements Account
     }
 
     public RemoteAccount(AccountDTO account) throws RemoteException {
-        this(account.getAccountId(), account.getUsername(), account.getPassword(), account.getSecurityLevel(),
+        this(account.getUserId(), account.getUsername(), account.getPassword(), account.getSecurityLevel(),
                 account.getFirstName(),account.getLastName(),account.getDescription(),
                 account.getImg());	}
 
     @Override
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
     @Override
