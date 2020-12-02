@@ -55,6 +55,11 @@ public class Server {
 							ArtworkDTO saved = DAOLocator.getDAO().saveArtwork(dto.getPictureBytes(),dto.getTitle(),dto.getDescription(),dto.getAuthor(),dto.getPrice(),dto.getUserId(),dto.getId(),dto.getCategory());
 							outToClient.writeObject(saved);
 						}
+						if(request.getRequest().equals("getArtworks"))
+						{
+							List<ArtworkDTO> artworks = new ArrayList<>(DAOLocator.getDAO().readAllArtworks());
+							outToClient.writeObject(artworks);
+						}
 						if(request.getRequest().equals("saveUser"))
 						{
 							AccountDTO accountDtoFromRequest = (AccountDTO) request.getObject();

@@ -1,13 +1,11 @@
-import shared.AccountDTO;
-import shared.Artwork;
-import shared.ArtworkDTO;
-import shared.UserDTO;
+import shared.*;
 
 import java.rmi.RemoteException;
 import java.sql.*;
 import java.util.Collection;
 
-public class DAOImplementation {
+public class DAOImplementation implements DAO
+{
 	private DatabaseHelper<UserDTO> helperUser;
 	private DatabaseHelper<AccountDTO> helperAccount;
 	private DatabaseHelper<ArtworkDTO> helperArtwork;
@@ -76,6 +74,7 @@ public class DAOImplementation {
 	{
 		return helperUser.mapSingle(this::createUser, "SELECT * FROM sep3db.\"User\" where username = ?", username);
 	}
+
 	public AccountDTO readAccount(String username) throws RemoteException
 	{
 		return helperAccount.mapSingle(this::createAccount, "SELECT * FROM sep3db.\"UserAccount\" where username = ?", username);
@@ -115,8 +114,21 @@ public class DAOImplementation {
 		helperArtwork.executeUpdate("INSERT INTO sep3db.\"Artwork\" VALUES (?, ?, ?, ?, ?, ?, ?, ?)",pictureBytes, title, description, author, price, userId, id, category);
 		return new ArtworkDTO(pictureBytes, title, description, author, price, userId, id, category);
 	}
+
+	@Override
+	public ArtworkDTO readArtwork(int id) throws RemoteException
+	{
+		return helperArtwork.mapSingle(this::createArtwork, "SELECT * FROM sep3db.\"Artwork\" where id = ?",id);
+	}
+
 	public Collection<ArtworkDTO> readAllArtworks() throws  RemoteException
 	{
 		return helperArtwork.map(this::createArtwork,"SELECT * FROM sep3db.\"Artwork\"");
+	}
+
+	@Override public Collection<ArtworkDTO> readArtworksFrom(int userId)
+			throws RemoteException
+	{
+		return helperArtwork.map(this::createArtwork,"SELECT * FROM sep3db.\"Artwork\" WHERE userid=?",userId);
 	}
 }
