@@ -19,7 +19,7 @@ public class DAOImplementation {
 	}
 	
 	private Connection getConnection() throws SQLException {
-		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "JJuu11@@");
+		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "Roksanka2601");
 	}
 
 	public AccountDTO createAccount(int userId, String username, String password, int securityLevel, String firstName, String lastName,
@@ -94,7 +94,7 @@ public class DAOImplementation {
 		helperAccount.executeUpdate("UPDATE sep3db.\"UserAccount\" SET username=?, password=?,  firstname=?, lastname=?," +
 						"description=?, img=? ,securityLevel=? WHERE userid = ?",
 				account.getUsername(), account.getPassword(),  account.getFirstName(),account.getLastName(),
-				account.getDescription(),account.getImg(),account.getSecurityLevel(),account.getUserId());
+				account.getDescription(),account.getPictureBytes(),account.getSecurityLevel(),account.getUserId());
 	}
 	/*public void update(UserDTO user) throws RemoteException {
 		helper.executeUpdate("UPDATE User SET username=?, password=?, securityLevel=? WHERE id = ?",

@@ -1,7 +1,6 @@
 package shared;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
 
 public class AccountDTO implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -12,10 +11,10 @@ public class AccountDTO implements Serializable {
     private String firstName;
     private String lastName;
     private String description;
-    private byte[] img;
+    private byte[] pictureBytes;
 
     public AccountDTO(int userId, String username, String password, String firstName,
-                   String lastName, String description, byte[] img, int securityLevel) {
+                   String lastName, String description, byte[] pictureBytes, int securityLevel) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -23,13 +22,13 @@ public class AccountDTO implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.description = description;
-        this.img = img;
+        this.pictureBytes = pictureBytes;
     }
 
-    public AccountDTO(Account account) throws RemoteException {
+    public AccountDTO(Account account) {
         this(account.getUserId(), account.getUsername(), account.getPassword(),
                 account.getFirstName(), account.getLastName(), account.getDescription(),
-                account.getImg(), account.getSecurityLevel());
+                account.getPictureBytes(), account.getSecurityLevel());
     }
 
     public void setUserId(int userId) {
@@ -60,8 +59,8 @@ public class AccountDTO implements Serializable {
         return description;
     }
 
-    public byte[] getImg() {
-        return img;
+    public byte[] getPictureBytes() {
+        return pictureBytes;
     }
 
     public String getPassword() {
