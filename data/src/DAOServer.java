@@ -56,7 +56,7 @@ public class DAOServer extends UnicastRemoteObject implements DAO
 
 	@Override public ArtworkDTO readArtwork(int id) throws RemoteException
 	{
-		return null;
+		return implementation.readArtwork(id);
 	}
 
 	@Override public Collection<ArtworkDTO> readAllArtworks()
@@ -68,7 +68,7 @@ public class DAOServer extends UnicastRemoteObject implements DAO
 	@Override public Collection<ArtworkDTO> readArtworksFrom(int userId)
 			throws RemoteException
 	{
-		return null;
+		return implementation.readArtworksFrom(userId);
 	}
 
 	@Override
