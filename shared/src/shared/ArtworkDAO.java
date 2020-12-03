@@ -13,4 +13,6 @@ public interface ArtworkDAO
   Collection<ArtworkDTO> readAllArtworks() throws RemoteException;
   Collection<ArtworkDTO> readArtworksFrom(int userId) throws RemoteException;
   void deleteArtwork(int id) throws RemoteException;
+  ArtworkDTO updateArtwork(byte[] pictureBytes, String title, String description,
+      String author, int price, int userId, int id, String category) throws RemoteException;
 }
