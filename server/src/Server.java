@@ -60,6 +60,12 @@ public class Server {
 							List<ArtworkDTO> artworks = new ArrayList<>(DAOLocator.getDAO().readAllArtworks());
 							outToClient.writeObject(artworks);
 						}
+						if(request.getRequest().equals("getArtwork"))
+						{
+							int id = (int)request.getObject();
+							ArtworkDTO dto = DAOLocator.getDAO().readArtwork(id);
+							outToClient.writeObject(dto);
+						}
 						if(request.getRequest().equals("saveUser"))
 						{
 							AccountDTO accountDtoFromRequest = (AccountDTO) request.getObject();
