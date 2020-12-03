@@ -119,6 +119,7 @@ public class DAOImplementation implements DAO
 	public ArtworkDTO readArtwork(int id) throws RemoteException
 	{
 		return helperArtwork.mapSingle(this::createArtwork, "SELECT * FROM sep3db.\"Artwork\" where id = ?",id);
+
 	}
 
 	public Collection<ArtworkDTO> readAllArtworks() throws  RemoteException
