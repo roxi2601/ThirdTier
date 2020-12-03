@@ -60,8 +60,18 @@ public class Server {
 						if(request.getRequest().equals("saveArtwork"))
 						{
 							ArtworkDTO dto = (ArtworkDTO)request.getObject();
-							int max = artworkDAO.readAllArtworks().size();
+							//setting id
+							int max = 0;
+							Collection<ArtworkDTO> artworks= artworkDAO.readAllArtworks();
+							for (ArtworkDTO artwork:artworks)
+							{
+								if(max<artwork.getId())
+								{
+									max = artwork.getId();
+								}
+							}
 							dto.setId(++max);
+							//end of setting id
 							ArtworkDTO saved = artworkDAO.saveArtwork(dto.getPictureBytes(),dto.getTitle(),dto.getDescription(),dto.getAuthor(),dto.getPrice(),dto.getUserId(),dto.getId(),dto.getCategory());
 							outToClient.writeObject(saved);
 						}
