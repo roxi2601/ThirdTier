@@ -13,7 +13,7 @@ public class DAOUserImpl implements UserDAO
 	}
 	
 	private Connection getConnection() throws SQLException {
-		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "JJuu11@@");
+		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "Roksanka2601");
 	}
 
 
@@ -23,7 +23,7 @@ public class DAOUserImpl implements UserDAO
 	}
 
 	private UserDTO createUser(ResultSet rs) throws SQLException {
-		int userId = rs.getInt("userid");
+		int userId = rs.getInt("userId");
 		String username = rs.getString("username");
 		String password = rs.getString("password");
 		int securityLevel = rs.getInt("securityLevel");
@@ -31,7 +31,7 @@ public class DAOUserImpl implements UserDAO
 	}
 
 	public UserDTO readUser(int userId) throws RemoteException {
-		return helperUser.mapSingle(this::createUser, "SELECT * FROM sep3db.\"User\" where userid = ?", userId);
+		return helperUser.mapSingle(this::createUser, "SELECT * FROM sep3db.\"User\" where userId = ?", userId);
 	}
 
 	public UserDTO readUser(String username) throws RemoteException

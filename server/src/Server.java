@@ -22,9 +22,9 @@ public class Server {
 	public static void main(String[] args) throws RemoteException
 	{
 
-		DatabaseHelper<UserDTO> helperUser = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "JJuu11@@");
-		DatabaseHelper<AccountDTO> helperAccount = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "JJuu11@@");
-		DatabaseHelper<ArtworkDTO> helperArtwork = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "JJuu11@@");
+		DatabaseHelper<UserDTO> helperUser = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "Roksanka2601");
+		DatabaseHelper<AccountDTO> helperAccount = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "Roksanka2601");
+		DatabaseHelper<ArtworkDTO> helperArtwork = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "Roksanka2601");
 
 		UserDAO userDAO = new DAOUserImpl(helperUser);
 		AccountDAO accountDAO = new DAOAccountImpl(helperAccount);
@@ -52,9 +52,11 @@ public class Server {
 							outToClient.writeObject(userDto);
 						}
 						if (request.getRequest().equals("getAccount")) {
-							AccountDTO accountDto = accountDAO.readAccount(request.getObject().toString());
-							outToClient.writeObject(accountDto);
+							int userId = (int)request.getObject();
+							AccountDTO dto = accountDAO.readAccount(userId);
+							outToClient.writeObject(dto);
 						}
+
 						if(request.getRequest().equals("saveArtwork"))
 						{
 							ArtworkDTO dto = (ArtworkDTO)request.getObject();
@@ -83,10 +85,9 @@ public class Server {
 									accountDtoFromRequest.getUsername(), accountDtoFromRequest.getPassword(),accountDtoFromRequest.getSecurityLevel(),
 									accountDtoFromRequest.getFirstName(),accountDtoFromRequest.getLastName(),accountDtoFromRequest.getDescription(),
 									accountDtoFromRequest.getPictureBytes());
-							System.out.println(accountDto);
 							userDAO.createUser(accountDto.getUserId(),accountDtoFromRequest.getUsername(), accountDtoFromRequest.getPassword(),accountDtoFromRequest.getSecurityLevel());
 							outToClient.writeObject(accountDto);
-							System.out.println(accountDto);
+
 						}
 
 					}
