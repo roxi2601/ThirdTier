@@ -11,26 +11,23 @@ public class UserDTO implements Serializable {
 	private int securityLevel;
 
 
-	public UserDTO(int id, String username, String password, int securityLevel) {
-		this.userId = id;
+	public UserDTO(int userId, String username, String password, int securityLevel) {
+		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.securityLevel = securityLevel;
 
 	}
 
-	public UserDTO(User user) throws RemoteException {
-		this(user.getId(), user.getUserName(), user.getPassword(),
+	public UserDTO(User user)  {
+		this(user.getUserId(), user.getUsername(), user.getPassword(),
 				user.getSecurityLevel());
 	}
 
-	public int getId() {
+	public int getUserId() {
 		return userId;
 	}
 
-	public String getUserName() {
-		return username;
-	}
 
 	public String getPassword() {
 		return password;

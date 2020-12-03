@@ -6,7 +6,7 @@ SET Schema 'sep3db';
 
 Create Table "UserAccount"
 (
-    userId SERIAL PRIMARY KEY,
+    userId SERIAL PRIMARY KEY NOT NULL,
     username VARCHAR(256) NOT NULL,
     password VARCHAR(256) NOT NULL,
     firstName VARCHAR(256) NOT NULL,
@@ -17,7 +17,7 @@ Create Table "UserAccount"
 );
 Create Table "User"
 (
-    userId SERIAL,
+    userId SERIAL NOT NULL,
     username VARCHAR(256) NOT NULL,
     password VARCHAR(256) NOT NULL,
     securityLevel int NOT NULL,

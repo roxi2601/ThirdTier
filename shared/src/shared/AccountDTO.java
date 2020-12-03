@@ -1,43 +1,42 @@
 package shared;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
 
 public class AccountDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    private int accountId;
+    private int userId;
     private String username;
     private String password;
     private int securityLevel;
     private String firstName;
     private String lastName;
     private String description;
-    private byte[] img;
+    private byte[] pictureBytes;
 
-    public AccountDTO(int accountId, String username, String password, String firstName,
-                   String lastName, String description, byte[] img, int securityLevel) {
-        this.accountId = accountId;
+    public AccountDTO(int userId, String username, String password, String firstName,
+                   String lastName, String description, byte[] pictureBytes, int securityLevel) {
+        this.userId = userId;
         this.username = username;
         this.password = password;
         this.securityLevel = securityLevel;
         this.firstName = firstName;
         this.lastName = lastName;
         this.description = description;
-        this.img = img;
+        this.pictureBytes = pictureBytes;
     }
 
-    public AccountDTO(Account account) throws RemoteException {
-        this(account.getId(), account.getUsername(), account.getPassword(),
+    public AccountDTO(Account account) {
+        this(account.getUserId(), account.getUsername(), account.getPassword(),
                 account.getFirstName(), account.getLastName(), account.getDescription(),
-                account.getImg(), account.getSecurityLevel());
+                account.getPictureBytes(), account.getSecurityLevel());
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public int getUserId() {
+        return userId;
     }
 
     public String getUsername() {
@@ -60,8 +59,8 @@ public class AccountDTO implements Serializable {
         return description;
     }
 
-    public byte[] getImg() {
-        return img;
+    public byte[] getPictureBytes() {
+        return pictureBytes;
     }
 
     public String getPassword() {

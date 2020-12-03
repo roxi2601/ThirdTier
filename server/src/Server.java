@@ -69,17 +69,14 @@ public class Server {
 						if(request.getRequest().equals("saveUser"))
 						{
 							AccountDTO accountDtoFromRequest = (AccountDTO) request.getObject();
-							/*List<AccountDTO> accounts = new ArrayList<>();
-							int max = (int) accounts.stream().max(Comparator.comparing(AccountDTO::getAccountId)).get();
-
-							if(accountDtoFromRequest !=null)
-							max++;*/
-
-							AccountDTO accountDto = DAOLocator.getDAO().createAccount(accountDtoFromRequest.getAccountId(),
+							int max = DAOLocator.getDAO().readAllAccounts().size();
+							accountDtoFromRequest.setUserId(++max);
+							AccountDTO accountDto = DAOLocator.getDAO().createAccount(accountDtoFromRequest.getUserId(),
 									accountDtoFromRequest.getUsername(), accountDtoFromRequest.getPassword(),accountDtoFromRequest.getSecurityLevel(),
 									accountDtoFromRequest.getFirstName(),accountDtoFromRequest.getLastName(),accountDtoFromRequest.getDescription(),
-									accountDtoFromRequest.getImg());
-							DAOLocator.getDAO().createUser(accountDto.getAccountId(),accountDtoFromRequest.getUsername(), accountDtoFromRequest.getPassword(),accountDtoFromRequest.getSecurityLevel());
+									accountDtoFromRequest.getPictureBytes());
+							System.out.println(accountDto);
+							DAOLocator.getDAO().createUser(accountDto.getUserId(),accountDtoFromRequest.getUsername(), accountDtoFromRequest.getPassword(),accountDtoFromRequest.getSecurityLevel());
 							outToClient.writeObject(accountDto);
 							System.out.println(accountDto);
 						}

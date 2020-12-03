@@ -17,32 +17,32 @@ public class DAOImplementation implements DAO
 	}
 	
 	private Connection getConnection() throws SQLException {
-		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "JJuu11@@");
+		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "Roksanka2601");
 	}
 
 	public AccountDTO createAccount(int userId, String username, String password, int securityLevel, String firstName, String lastName,
-						  String description, byte[] img)  throws RemoteException {
-		helperAccount.executeUpdate("INSERT INTO sep3db.\"UserAccount\" VALUES (?, ?, ?, ?,?,?,?,?)", userId, username, password,firstName,
-				lastName, description, img,securityLevel);
+						  String description, byte[] pictureBytes)  throws RemoteException {
+		helperAccount.executeUpdate("INSERT INTO sep3db.\"UserAccount\" VALUES (?, ?, ?, ?,?,?,?,?)",userId, username, password,firstName,
+				lastName, description, pictureBytes,securityLevel);
 
 		return new AccountDTO(userId, username, password, firstName,
-				lastName, description, img,securityLevel);
+				lastName, description, pictureBytes,securityLevel);
 	}
 	public UserDTO createUser(int userId, String username, String password, int securityLevel)  throws RemoteException {
-		helperUser.executeUpdate("INSERT INTO sep3db.\"User\" VALUES (?, ?, ?, ?)", userId, username, password, securityLevel);
+		helperUser.executeUpdate("INSERT INTO sep3db.\"User\" VALUES (?, ?, ?, ?)",userId,username, password, securityLevel);
 		return new UserDTO(userId, username, password,securityLevel);
 	}
 	
 	private AccountDTO createAccount(ResultSet rs) throws SQLException {
-		int accountId = rs.getInt("accountId");
+		int userId = rs.getInt("userid");
 		String username = rs.getString("username");
 		String password = rs.getString("password");
 		String firstName = rs.getString("firstname");
 		String lastName = rs.getString("lastname");
 		String description = rs.getString("description");
-		byte[] img =rs.getBytes("img");
+		byte[] pictureBytes =rs.getBytes("img");
 		int securityLevel = rs.getInt("securityLevel");
-		return new AccountDTO(accountId, username, password, firstName,lastName,description,img,securityLevel);
+		return new AccountDTO(userId, username, password, firstName,lastName,description,pictureBytes,securityLevel);
 	}
 	private UserDTO createUser(ResultSet rs) throws SQLException {
 		int userId = rs.getInt("userid");
@@ -65,10 +65,10 @@ public class DAOImplementation implements DAO
 		return  new ArtworkDTO(pictureBytes,title,description,author,price,userId,id,category);
 	}
 	public UserDTO readUser(int userId) throws RemoteException {
-		return helperUser.mapSingle(this::createUser, "SELECT * FROM sep3db.\"User\" where userId = ?", userId);
+		return helperUser.mapSingle(this::createUser, "SELECT * FROM sep3db.\"User\" where userid = ?", userId);
 	}
 	public AccountDTO readAccount(int accountId) throws RemoteException {
-		return helperAccount.mapSingle(this::createAccount, "SELECT * FROM sep3db.\"UserAccount\" where accountId = ?", accountId);
+		return helperAccount.mapSingle(this::createAccount, "SELECT * FROM sep3db.\"UserAccount\" where userid = ?", accountId);
 	}
 	public UserDTO readUser(String username) throws RemoteException
 	{
@@ -91,9 +91,9 @@ public class DAOImplementation implements DAO
 
 	public void update(AccountDTO account) throws RemoteException {
 		helperAccount.executeUpdate("UPDATE sep3db.\"UserAccount\" SET username=?, password=?,  firstname=?, lastname=?," +
-						"description=?, img=? ,securityLevel=? WHERE accountId = ?",
+						"description=?, img=? ,securityLevel=? WHERE userid = ?",
 				account.getUsername(), account.getPassword(),  account.getFirstName(),account.getLastName(),
-				account.getDescription(),account.getImg(),account.getSecurityLevel(),account.getAccountId());
+				account.getDescription(),account.getPictureBytes(),account.getSecurityLevel(),account.getUserId());
 	}
 	/*public void update(UserDTO user) throws RemoteException {
 		helper.executeUpdate("UPDATE User SET username=?, password=?, securityLevel=? WHERE id = ?",
@@ -104,7 +104,7 @@ public class DAOImplementation implements DAO
 		helper.executeUpdate("DELETE FROM User WHERE id = ?", user.getId());
 	}*/
 	public void delete(AccountDTO account) throws RemoteException {
-		helperAccount.executeUpdate("DELETE FROM sep3db.\"UserAccount\" WHERE accountId = ?", account.getAccountId());
+		helperAccount.executeUpdate("DELETE FROM sep3db.\"UserAccount\" WHERE userid = ?", account.getUserId());
 	}
 	//artwork methods
 	public ArtworkDTO saveArtwork(byte[] pictureBytes, String title,
