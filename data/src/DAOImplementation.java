@@ -21,12 +21,12 @@ public class DAOImplementation implements DAO
 	}
 
 	public AccountDTO createAccount(int userId, String username, String password, int securityLevel, String firstName, String lastName,
-						  String description, byte[] img)  throws RemoteException {
+						  String description, byte[] pictureBytes)  throws RemoteException {
 		helperAccount.executeUpdate("INSERT INTO sep3db.\"UserAccount\" VALUES (?, ?, ?, ?,?,?,?,?)",userId, username, password,firstName,
-				lastName, description, img,securityLevel);
+				lastName, description, pictureBytes,securityLevel);
 
 		return new AccountDTO(userId, username, password, firstName,
-				lastName, description, img,securityLevel);
+				lastName, description, pictureBytes,securityLevel);
 	}
 	public UserDTO createUser(int userId, String username, String password, int securityLevel)  throws RemoteException {
 		helperUser.executeUpdate("INSERT INTO sep3db.\"User\" VALUES (?, ?, ?, ?)",userId,username, password, securityLevel);
@@ -40,9 +40,9 @@ public class DAOImplementation implements DAO
 		String firstName = rs.getString("firstname");
 		String lastName = rs.getString("lastname");
 		String description = rs.getString("description");
-		byte[] img =rs.getBytes("img");
+		byte[] pictureBytes =rs.getBytes("img");
 		int securityLevel = rs.getInt("securityLevel");
-		return new AccountDTO(userId, username, password, firstName,lastName,description,img,securityLevel);
+		return new AccountDTO(userId, username, password, firstName,lastName,description,pictureBytes,securityLevel);
 	}
 	private UserDTO createUser(ResultSet rs) throws SQLException {
 		int userId = rs.getInt("userid");
