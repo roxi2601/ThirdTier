@@ -74,6 +74,17 @@ public class Server {
 							ArtworkDTO dto = artworkDAO.readArtwork(id);
 							outToClient.writeObject(dto);
 						}
+						if(request.getRequest().equals("deleteArtwork"))
+						{
+							int id = (int)request.getObject();
+							artworkDAO.deleteArtwork(id);
+						}
+						if(request.getRequest().equals("editArtwork"))
+						{
+							ArtworkDTO dto = (ArtworkDTO)request.getObject();
+							ArtworkDTO saved = artworkDAO.updateArtwork(dto.getPictureBytes(),dto.getTitle(),dto.getDescription(),dto.getAuthor(),dto.getPrice(),dto.getUserId(), dto.getId(),dto.getCategory());
+							outToClient.writeObject(saved);
+						}
 						if(request.getRequest().equals("saveUser"))
 						{
 							AccountDTO accountDtoFromRequest = (AccountDTO) request.getObject();

@@ -59,4 +59,13 @@ public class DAOArtworkImpl implements ArtworkDAO
   {
     helperArtwork.executeUpdate("DELETE FROM sep3db.\"Artwork\" WHERE id = ?", id);
   }
+
+  @Override public ArtworkDTO updateArtwork(byte[] pictureBytes, String title,
+      String description, String author, int price,int userId, int id, String category)
+      throws RemoteException
+  {
+    helperArtwork.executeUpdate("UPDATE sep3db.\"Artwork\" SET img=?, title=?,  description=?, author=?," +
+        "price=?, category=?  WHERE id = ?",pictureBytes,title,description,author,price,category,id);
+    return new ArtworkDTO(pictureBytes, title, description, author, price, userId, id, category);
+  }
 }
