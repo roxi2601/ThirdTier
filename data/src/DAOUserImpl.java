@@ -39,6 +39,18 @@ public class DAOUserImpl implements UserDAO
 		return helperUser.mapSingle(this::createUser, "SELECT * FROM sep3db.\"User\" where username = ?", username);
 	}
 
+	@Override
+	public UserDTO updateUser(int userId, String username, String password, int securityLevel) throws RemoteException {
+		helperUser.executeUpdate("UPDATE sep3db.\"User\" SET username=?, password=?, securityLevel=? WHERE userid=?",
+				username,password,securityLevel,userId);
+		return new UserDTO(userId, username,password,securityLevel);
+	}
+
+	@Override
+	public void deleteUser(int userId) throws RemoteException {
+		helperUser.executeUpdate("DELETE FROM sep3db.\"User\" WHERE userid = ?", userId);
+	}
+
 	public Collection<UserDTO> readAllUsers() throws RemoteException {
 		return helperUser.map(this::createUser, "SELECT * FROM sep3db.\"User\"");
 	}

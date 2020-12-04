@@ -97,11 +97,36 @@ public class Server {
 							ArtworkDTO saved = artworkDAO.updateArtwork(dto.getPictureBytes(),dto.getTitle(),dto.getDescription(),dto.getAuthor(),dto.getPrice(),dto.getUserId(), dto.getId(),dto.getCategory());
 							outToClient.writeObject(saved);
 						}
+						if(request.getRequest().equals("deleteAccount"))
+						{
+							int userId = (int)request.getObject();
+							userDAO.deleteUser(userId);
+							accountDAO.deleteAccount(userId);
+						}
+						if(request.getRequest().equals("editAccount"))
+						{
+							AccountDTO dto = (AccountDTO)request.getObject();
+							userDAO.updateUser(dto.getUserId(), dto.getUsername(),dto.getPassword(),dto.getSecurityLevel());
+							AccountDTO saved = accountDAO.updateAccount(dto.getUserId(),dto.getUsername(),dto.getPassword(),dto.getSecurityLevel(),dto.getFirstName(),dto.getLastName(),
+									dto.getDescription(),dto.getPictureBytes());
+							outToClient.writeObject(saved);
+
+						}
 						if(request.getRequest().equals("saveUser"))
 						{
 							AccountDTO accountDtoFromRequest = (AccountDTO) request.getObject();
-							int max = accountDAO.readAllAccounts().size();
+							//setting id
+							int max = 0;
+							Collection<AccountDTO> accounts= accountDAO.readAllAccounts();
+							for (AccountDTO account:accounts)
+							{
+								if(max<account.getUserId())
+								{
+									max = account.getUserId();
+								}
+							}
 							accountDtoFromRequest.setUserId(++max);
+							//end of setting id
 							AccountDTO accountDto =accountDAO.createAccount(accountDtoFromRequest.getUserId(),
 									accountDtoFromRequest.getUsername(), accountDtoFromRequest.getPassword(),accountDtoFromRequest.getSecurityLevel(),
 									accountDtoFromRequest.getFirstName(),accountDtoFromRequest.getLastName(),accountDtoFromRequest.getDescription(),
@@ -120,13 +145,3 @@ public class Server {
 	}
 
 	}
-
-
-
-	/*public static void main(String[] args) throws RemoteException {
-		RemoteBase base = new RemoteBase(DAOLocator.getDAO());
-		Remote skeleton = UnicastRemoteObject.exportObject(base, 8080);
-		Registry registry = LocateRegistry.getRegistry(1099);
-		registry.rebind("Base", skeleton);
-		System.out.println("Server running");
-	}*/

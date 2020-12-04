@@ -50,14 +50,17 @@ public class DAOAccountImpl implements AccountDAO
     return helperAccount.map(this::createAccount, "SELECT * FROM sep3db.\"UserAccount\"");
   }
 
+  @Override
+  public AccountDTO updateAccount(int userId, String username, String password, int securityLevel, String firstName, String lastName, String description, byte[] pictureBytes) throws RemoteException {
+    helperAccount.executeUpdate("UPDATE sep3db.\"UserAccount\" SET username=?, password=?, securitylevel=?, firstname=?, lastname=?," +
+                    "description=?, img=? WHERE userid=?",username, password, securityLevel, firstName, lastName, description,pictureBytes);
 
-  public void update(AccountDTO account) throws RemoteException {
-    helperAccount.executeUpdate("UPDATE sep3db.\"UserAccount\" SET username=?, password=?,  firstname=?, lastname=?," +
-            "description=?, img=? ,securityLevel=? WHERE userid = ?",
-        account.getUsername(), account.getPassword(),  account.getFirstName(),account.getLastName(),
-        account.getDescription(),account.getPictureBytes(),account.getSecurityLevel(),account.getUserId());
+    return new AccountDTO(userId, username, password, firstName,
+            lastName, description, pictureBytes,securityLevel);
   }
-  public void delete(AccountDTO account) throws RemoteException {
-    helperAccount.executeUpdate("DELETE FROM sep3db.\"UserAccount\" WHERE userid = ?", account.getUserId());
+
+@Override
+  public void deleteAccount(int userId) throws RemoteException {
+    helperAccount.executeUpdate("DELETE FROM sep3db.\"UserAccount\" WHERE userid = ?", userId);
   }
 }

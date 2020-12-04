@@ -9,5 +9,7 @@ public interface UserDAO extends Remote {
 	Collection<UserDTO> readAllUsers() throws RemoteException;
 	UserDTO readUser(int id) throws RemoteException;
 	UserDTO readUser(String username) throws RemoteException;
+	UserDTO updateUser(int userId, String username, String password, int securityLevel) throws RemoteException;
+	void deleteUser(int userId) throws RemoteException;
 
 }
