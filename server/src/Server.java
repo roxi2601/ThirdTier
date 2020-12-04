@@ -52,8 +52,9 @@ public class Server {
 							outToClient.writeObject(userDto);
 						}
 						if (request.getRequest().equals("getAccount")) {
-							AccountDTO accountDto = accountDAO.readAccount(request.getObject().toString());
-							outToClient.writeObject(accountDto);
+							int userId =(int)request.getObject();
+							AccountDTO dto = accountDAO.readAccount(userId);
+							outToClient.writeObject(dto);
 						}
 						if(request.getRequest().equals("saveArtwork"))
 						{
