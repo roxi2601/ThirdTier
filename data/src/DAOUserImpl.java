@@ -41,8 +41,8 @@ public class DAOUserImpl implements UserDAO
 
 	@Override
 	public UserDTO updateUser(int userId, String username, String password, int securityLevel) throws RemoteException {
-		helperUser.executeUpdate("UPDATE sep3db.\"User\" SET username=?, password=?, securityLevel=? WHERE userid=?",
-				username,password,securityLevel,userId);
+		helperUser.executeUpdate("UPDATE sep3db.\"User\" SET username=?, password=?, securityLevel=? WHERE userid=?",username,password,securityLevel,
+				userId);
 		return new UserDTO(userId, username,password,securityLevel);
 	}
 

@@ -3,6 +3,7 @@ import shared.*;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectStreamClass;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.RemoteException;
@@ -34,7 +35,7 @@ public class Server {
 				ServerSocket serverSocket = new ServerSocket(1098);
 				System.out.println("Starting server...");
 
-				while (true) {
+
 
 					Socket socket = serverSocket.accept();
 					System.out.println("Connection established");
@@ -44,7 +45,9 @@ public class Server {
 					ObjectOutputStream outToClient = new ObjectOutputStream(socket.getOutputStream());
 
 					while(true){
-						Request request = (Request)inFromClient.readObject();
+						Object object = inFromClient.readObject();
+						System.out.println(object instanceof Request);
+						Request request = (Request)object;
 
 						if (request.getRequest().equals("getUser")) {
 							UserDTO userDto = userDAO.readUser(request.getObject().toString());
@@ -105,12 +108,16 @@ public class Server {
 						}
 						if(request.getRequest().equals("editAccount"))
 						{
+							//outToClient.reset();
+
 							AccountDTO dto = (AccountDTO)request.getObject();
-							userDAO.updateUser(dto.getUserId(), dto.getUsername(),dto.getPassword(),dto.getSecurityLevel());
+
 							AccountDTO saved = accountDAO.updateAccount(dto.getUserId(),dto.getUsername(),dto.getPassword(),dto.getSecurityLevel(),dto.getFirstName(),dto.getLastName(),
 									dto.getDescription(),dto.getPictureBytes());
-							outToClient.writeObject(saved);
 
+							userDAO.updateUser(dto.getUserId(), dto.getUsername(),dto.getPassword(),dto.getSecurityLevel());
+							outToClient.writeObject(saved);
+							System.out.println("wykonalo sie"+saved);
 						}
 						if(request.getRequest().equals("saveUser"))
 						{
@@ -137,7 +144,7 @@ public class Server {
 						}
 
 					}
-				}
+
 			}catch (Exception e)
 			{
 				e.printStackTrace();

@@ -37,8 +37,8 @@ public class DAOAccountImpl implements AccountDAO
     return new AccountDTO(userId, username, password, firstName,lastName,description,pictureBytes,securityLevel);
   }
 
-  public AccountDTO readAccount(int accountId) throws RemoteException {
-    return helperAccount.mapSingle(this::createAccount, "SELECT * FROM sep3db.\"UserAccount\" where userid = ?", accountId);
+  public AccountDTO readAccount(int userId) throws RemoteException {
+    return helperAccount.mapSingle(this::createAccount, "SELECT * FROM sep3db.\"UserAccount\" where userid = ?", userId);
   }
 
   public AccountDTO readAccount(String username) throws RemoteException
@@ -52,8 +52,7 @@ public class DAOAccountImpl implements AccountDAO
 
   @Override
   public AccountDTO updateAccount(int userId, String username, String password, int securityLevel, String firstName, String lastName, String description, byte[] pictureBytes) throws RemoteException {
-    helperAccount.executeUpdate("UPDATE sep3db.\"UserAccount\" SET username=?, password=?, securitylevel=?, firstname=?, lastname=?," +
-                    "description=?, img=? WHERE userid=?",username, password, securityLevel, firstName, lastName, description,pictureBytes);
+    helperAccount.executeUpdate("UPDATE sep3db.\"UserAccount\" SET  username=?, password=?, firstname=?, lastname=?, description=?, img=?, securitylevel=? WHERE userid=?",username, password, firstName, lastName, description,pictureBytes,securityLevel,userId);
 
     return new AccountDTO(userId, username, password, firstName,
             lastName, description, pictureBytes,securityLevel);

@@ -1,5 +1,6 @@
 package shared;
 
+
 import java.io.Serializable;
 
 public class AccountDTO implements Serializable {
@@ -13,8 +14,11 @@ public class AccountDTO implements Serializable {
     private String description;
     private byte[] pictureBytes;
 
+    public AccountDTO() {
+    }
+
     public AccountDTO(int userId, String username, String password, String firstName,
-                   String lastName, String description, byte[] pictureBytes, int securityLevel) {
+                      String lastName, String description, byte[] pictureBytes, int securityLevel) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -29,10 +33,6 @@ public class AccountDTO implements Serializable {
         this(account.getUserId(), account.getUsername(), account.getPassword(),
                 account.getFirstName(), account.getLastName(), account.getDescription(),
                 account.getPictureBytes(), account.getSecurityLevel());
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public int getUserId() {
@@ -65,5 +65,23 @@ public class AccountDTO implements Serializable {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+
+    @Override
+    public String toString() {
+        return "AccountDTO{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", securityLevel=" + securityLevel +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
