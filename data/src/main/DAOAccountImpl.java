@@ -1,3 +1,5 @@
+package main;
+
 import shared.AccountDAO;
 import shared.AccountDTO;
 

@@ -1,9 +1,12 @@
 import communicationWithThirdTier.Request;
+import main.DAOAccountImpl;
+import main.DAOArtworkImpl;
+import main.DAOUserImpl;
+import main.DatabaseHelper;
 import shared.*;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.ObjectStreamClass;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.RemoteException;

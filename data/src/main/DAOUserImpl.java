@@ -1,3 +1,5 @@
+package main;
+
 import shared.*;
 
 import java.rmi.RemoteException;
