@@ -1,8 +1,5 @@
 import communicationWithThirdTier.Request;
-import main.DAOAccountImpl;
-import main.DAOArtworkImpl;
-import main.DAOUserImpl;
-import main.DatabaseHelper;
+import main.*;
 import shared.*;
 
 import java.io.ObjectInputStream;
@@ -14,31 +11,22 @@ import java.util.*;
 
 public class Server {
 
-	/*private ServerSocket welcomeSocket;
-
-	public Server(int port) throws IOException {
-		System.out.println("Starting Server...");
-
-		//Create welcoming socket at the port
-		ServerSocket welcomeSocket = new ServerSocket(port);
-	}*/
-
 	public static void main(String[] args) throws RemoteException
 	{
 
 		DatabaseHelper<UserDTO> helperUser = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "Roksanka2601");
 		DatabaseHelper<AccountDTO> helperAccount = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "Roksanka2601");
 		DatabaseHelper<ArtworkDTO> helperArtwork = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "Roksanka2601");
+		DatabaseHelper<MessageDTO> helperChat = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/postgres?currentSchema=sep3db", "postgres", "Roksanka2601");
 
 		UserDAO userDAO = new DAOUserImpl(helperUser);
 		AccountDAO accountDAO = new DAOAccountImpl(helperAccount);
 		ArtworkDAO artworkDAO = new DAOArtworkImpl(helperArtwork);
+		MessageDAO chatDAO = new DAOChatImpl(helperChat);
 
 			try{
 				ServerSocket serverSocket = new ServerSocket(1098);
 				System.out.println("Starting server...");
-
-
 
 					Socket socket = serverSocket.accept();
 					System.out.println("Connection established");
@@ -143,9 +131,34 @@ public class Server {
 									accountDtoFromRequest.getPictureBytes());
 							userDAO.createUser(accountDto.getUserId(),accountDtoFromRequest.getUsername(), accountDtoFromRequest.getPassword(),accountDtoFromRequest.getSecurityLevel());
 							outToClient.writeObject(accountDto);
-
 						}
+						if(request.getRequest().equals("sendMessage"))
+						{
+							MessageDTO dto = (MessageDTO) request.getObject();
 
+							MessageDTO sent = chatDAO.createMessage(dto.getUsername(),dto.getBody());
+
+							chatDAO.updateChat(dto.getUsername(),dto.getBody());
+							outToClient.writeObject(sent);
+							System.out.println("Message:" + sent);
+						}
+						if(request.getRequest().equals("deleteMessage"))
+						{
+							String message = (String) request.getObject();
+							chatDAO.deleteMessage(message);
+						}
+						if(request.getRequest().equals("updateChat"))
+						{
+							MessageDTO dto = (MessageDTO) request.getObject();
+							MessageDTO updated = chatDAO.updateChat(dto.getUsername(),dto.getBody());
+							outToClient.writeObject(updated);
+							System.out.println("Message:" + updated);
+						}
+						if(request.getRequest().equals("getAllChats"))
+						{
+							List<MessageDTO> messages = new ArrayList<>(chatDAO.readAllMessages());
+							outToClient.writeObject(messages);
+						}
 					}
 
 			}catch (Exception e)
@@ -153,5 +166,4 @@ public class Server {
 				e.printStackTrace();
 			}
 	}
-
-	}
+}
