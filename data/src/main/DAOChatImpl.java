@@ -22,7 +22,7 @@ public class DAOChatImpl implements MessageDAO {
     }
 
     public MessageDTO createMessage(String username, String message)  throws RemoteException {
-        helperChat.executeUpdate("INSERT INTO sep3db.\"User\" VALUES (?, ?)",username, message);
+        helperChat.executeUpdate("INSERT INTO sep3db.\"Chat\" VALUES (?, ?)",username, message);
         return new MessageDTO(username, message);
     }
 
@@ -33,21 +33,21 @@ public class DAOChatImpl implements MessageDAO {
     }
 
     public Collection<MessageDTO> readAllMessages() throws RemoteException {
-        return helperChat.map(this::createMessage, "SELECT * FROM sep3db.\"User\"");
+        return helperChat.map(this::createMessage, "SELECT * FROM sep3db.\"Chat\"");
     }
 
     public MessageDTO readMessage(String message) throws RemoteException {
-        return helperChat.mapSingle(this::createMessage, "SELECT * FROM sep3db.\"User\" where message = ?", message);
+        return helperChat.mapSingle(this::createMessage, "SELECT * FROM sep3db.\"Chat\" where message = ?", message);
     }
 
     @Override
     public MessageDTO updateChat(String username, String message) throws RemoteException {
-        helperChat.executeUpdate("UPDATE sep3db.\"User\" SET message=? WHERE username=?",message, username);
+        helperChat.executeUpdate("UPDATE sep3db.\"Chat\" SET message=? WHERE username=?",message, username);
         return new MessageDTO(message, username);
     }
 
     @Override
     public void deleteMessage(String message) throws RemoteException {
-        helperChat.executeUpdate("DELETE FROM sep3db.\"User\" WHERE message = ?", message);
+        helperChat.executeUpdate("DELETE FROM sep3db.\"Chat\" WHERE message = ?", message);
     }
 }
