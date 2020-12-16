@@ -32,3 +32,16 @@ Create Table "Chat"
     message VARCHAR(1000) NOT NULL,
     Foreign key(userId) references "UserAccount"(userId)
 );
+
+Create Table "Artwork"
+(
+    userId SERIAL NOT NULL,
+    pictureBytes bytea,
+    title VARCHAR(256) NOT NULL,
+    description VARCHAR(1000),
+    author VARCHAR(256) NOT NULL,
+    price int NOT NULL,
+    id int NOT NULL,
+    category VARCHAR(256) NOT NULL,
+  Foreign key(userId) references "UserAccount"(userId)
+);
