@@ -35,12 +35,12 @@ Create Table "Chat"
 
 Create Table "Artwork"
 (
-    userId SERIAL NOT NULL,
-    pictureBytes bytea,
+    img bytea,
     title VARCHAR(256) NOT NULL,
     description VARCHAR(1000),
     author VARCHAR(256) NOT NULL,
     price int NOT NULL,
+    userId int NOT NULL,
     id int NOT NULL,
     category VARCHAR(256) NOT NULL,
   Foreign key(userId) references "UserAccount"(userId)
