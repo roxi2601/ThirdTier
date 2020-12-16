@@ -30,5 +30,5 @@ Create Table "Chat"
     userId SERIAL NOT NULL,
     username VARCHAR(256) NOT NULL,
     message VARCHAR(1000) NOT NULL,
-    Foreign key(userId) references "UserAccount"(userId))
+    Foreign key(userId) references "UserAccount"(userId)
 );

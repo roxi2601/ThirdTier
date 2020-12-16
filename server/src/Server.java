@@ -69,7 +69,7 @@ public class Server {
 							ArtworkDTO saved = artworkDAO.saveArtwork(dto.getPictureBytes(),dto.getTitle(),dto.getDescription(),dto.getAuthor(),dto.getPrice(),dto.getUserId(),dto.getId(),dto.getCategory());
 							outToClient.writeObject(saved);
 						}
-						if(request.getRequest().equals("getAllArtworks"))
+						if(request.getRequest().equals("getArtworks"))
 						{
 							List<ArtworkDTO> artworks = new ArrayList<>(artworkDAO.readAllArtworks());
 							outToClient.writeObject(artworks);
@@ -132,7 +132,7 @@ public class Server {
 							userDAO.createUser(accountDto.getUserId(),accountDtoFromRequest.getUsername(), accountDtoFromRequest.getPassword(),accountDtoFromRequest.getSecurityLevel());
 							outToClient.writeObject(accountDto);
 						}
-						if(request.getRequest().equals("sendMessage"))
+						if(request.getRequest().equals("saveMessage"))
 						{
 							MessageDTO dto = (MessageDTO) request.getObject();
 
