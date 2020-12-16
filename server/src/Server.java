@@ -69,7 +69,7 @@ public class Server {
 							ArtworkDTO saved = artworkDAO.saveArtwork(dto.getPictureBytes(),dto.getTitle(),dto.getDescription(),dto.getAuthor(),dto.getPrice(),dto.getUserId(),dto.getId(),dto.getCategory());
 							outToClient.writeObject(saved);
 						}
-						if(request.getRequest().equals("getArtworks"))
+						if(request.getRequest().equals("getAllArtworks"))
 						{
 							List<ArtworkDTO> artworks = new ArrayList<>(artworkDAO.readAllArtworks());
 							outToClient.writeObject(artworks);
